@@ -1,0 +1,3 @@
+Server chạy trên cổng \\.\pipe\a663602a-cda3-4469-b804-21421bfced9b
+[0mGET / [36m304 [0m21.324 ms - -[0m
+[0mGET /favicon.ico [33m404 [0m6.801 ms - 1043[0m

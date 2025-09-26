@@ -1,0 +1,12 @@
+var express = require('express');
+var router = express.Router();
+const authenticateToken = require("../middlewares/authMiddlewaresOptional");
+const cartController = require("../controllers/cart.controller");
+router.post("/add", cartController.addToCart);
+router.get("/getcart",authenticateToken, cartController.getCart);
+router.get('/', cartController.getAll);
+router.get('/:id',  cartController.getById);
+router.post('/',  cartController.insert);
+router.put('/:id',  cartController.update);
+router.delete('/:id', cartController.delete);
+module.exports = router;

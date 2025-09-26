@@ -1,0 +1,12 @@
+var express = require('express');
+var router = express.Router();
+const authenticateToken = require("../middlewares/authMiddlewares");
+const product_variantController = require("../controllers/product_variant.controller");
+router.get('/variantid/:id', authenticateToken, product_variantController.GetByIDVariant);
+router.get('/productid/:id', product_variantController.GetByIDProduct);
+router.get('/', product_variantController.getAll);
+router.get('/:id',  product_variantController.getById);
+router.post('/',  product_variantController.insert);
+router.put('/:id',  product_variantController.update);
+router.delete('/:id', product_variantController.delete);
+module.exports = router;

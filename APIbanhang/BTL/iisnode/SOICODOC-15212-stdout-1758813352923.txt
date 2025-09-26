@@ -1,0 +1,3 @@
+[dotenv@17.2.2] injecting env (3) from .env -- tip: ⚙️  write to custom object with { processEnv: myObject }
+[dotenv@17.2.2] injecting env (0) from .env -- tip: 📡 auto-backup env with Radar: https://dotenvx.com/radar
+Server chạy trên cổng \\.\pipe\e989f4bc-17f6-4d3a-81b5-379dada582aa
