@@ -40,6 +40,9 @@ export default function InformationScreen() {
   const [oldPassword, setOldPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [confirmPass, setConfirmPass] = useState("");
+  const [showOldPass, setShowOldPass] = useState(false);
+  const [showNewPass, setShowNewPass] = useState(false);
+  const [showConfirmPass, setShowConfirmPass] = useState(false);
 
   useEffect(() => {
     checkLoginStatus();
@@ -161,7 +164,7 @@ export default function InformationScreen() {
 
 
   const handleViewOrders = () => {
-    router.push({ pathname: '/' });
+    router.push({ pathname: '/OrderHistory' });
   };
 
   return (
@@ -197,15 +200,19 @@ export default function InformationScreen() {
         {/* Stats */}
         <View style={styles.statsBox}>
           <View style={styles.statItem}>
-            <Text style={styles.statNumber}>{stats?.hang_thanh_vien}</Text>
+            <Text style={styles.statNumber}>{stats?.hang_thanh_vien ?? "thành viên"}</Text>
             <Text style={styles.statLabel}>Hạng thành viên</Text>
           </View>
           <View style={styles.statItem}>
-            <Text style={styles.statNumber}>{stats?.tong_chi_tieu.toLocaleString("vi-VN")}đ</Text>
+            <Text style={styles.statNumber}>
+              {stats?.tong_chi_tieu
+                ? `${stats.tong_chi_tieu.toLocaleString("vi-VN")}đ`
+                : "0đ"}
+            </Text>
             <Text style={styles.statLabel}>Tổng chi tiêu</Text>
           </View>
           <View style={styles.statItem}>
-            <Text style={styles.statNumber}>{stats?.tong_don_hang}</Text>
+            <Text style={styles.statNumber}>{stats?.tong_don_hang  ?? 0}</Text>
             <Text style={styles.statLabel}>Tổng đơn hàng</Text>
           </View>
         </View>
@@ -292,47 +299,90 @@ export default function InformationScreen() {
 
         {/* Modal đổi mật khẩu */}
         <Modal visible={showPasswordModal} animationType="fade" transparent>
-          <View style={styles.modalContainer}>
-            <View style={styles.modalBox}>
-              <Text style={styles.modalTitle}>🔒 Đổi mật khẩu</Text>
+        <View style={styles.modalContainer}>
+          <View style={styles.modalBox}>
+            <Text style={styles.modalTitle}>Đổi mật khẩu</Text>
+
+            {/* Mật khẩu cũ */}
+            <View style={{ position: "relative", marginBottom: 10 }}>
               <TextInput
-                style={styles.input}
-                secureTextEntry
+                style={styles.inputWithIcon}
+                secureTextEntry={!showOldPass}
                 placeholder="Mật khẩu cũ"
                 value={oldPassword}
                 onChangeText={setOldPassword}
               />
+              <TouchableOpacity style={styles.iconWrapper} 
+                onPress={() => setShowOldPass(!showOldPass)}
+              >
+                <Ionicons
+                  name={showOldPass ? "eye" : "eye-off"}
+                  size={22}
+                  color="#666"
+                  style={{ padding: 8 }}
+                />
+              </TouchableOpacity>
+            </View>
+
+            {/* Mật khẩu mới */}
+            <View style={{ position: "relative", marginBottom: 10 }}>
               <TextInput
-                style={styles.input}
-                secureTextEntry
+                style={styles.inputWithIcon}
+                secureTextEntry={!showNewPass}
                 placeholder="Mật khẩu mới"
                 value={newPassword}
                 onChangeText={setNewPassword}
               />
+              <TouchableOpacity style={styles.iconWrapper} 
+                onPress={() => setShowNewPass(!showNewPass)}
+              >
+                <Ionicons
+                  name={showNewPass ? "eye" : "eye-off"}
+                  size={22}
+                  color="#666"
+                  style={{ padding: 8 }}
+                />
+              </TouchableOpacity>
+            </View>
+
+            {/* Nhập lại mật khẩu */}
+            <View style={{ position: "relative", marginBottom: 10 }}>
               <TextInput
-                style={styles.input}
-                secureTextEntry
+                style={styles.inputWithIcon}
+                secureTextEntry={!showConfirmPass}
                 placeholder="Nhập lại mật khẩu mới"
                 value={confirmPass}
                 onChangeText={setConfirmPass}
               />
-              <View style={styles.row}>
-                <TouchableOpacity
-                  style={[styles.secondaryButton, { backgroundColor: "#28a745" }]}
-                  onPress={handleChangePassword}
-                >
-                  <Text style={styles.secondaryText}>Lưu</Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                  style={[styles.secondaryButton, { backgroundColor: "#f44336" }]}
-                  onPress={() => setShowPasswordModal(false)}
-                >
-                  <Text style={styles.secondaryText}>Hủy</Text>
-                </TouchableOpacity>
-              </View>
+              <TouchableOpacity style={styles.iconWrapper} 
+                onPress={() => setShowConfirmPass(!showConfirmPass)}
+              >
+                <Ionicons
+                  name={showConfirmPass ? "eye" : "eye-off"}
+                  size={22}
+                  color="#666"
+                  style={{ padding: 8 }}
+                />
+              </TouchableOpacity>
+            </View>
+
+            <View style={styles.row}>
+              <TouchableOpacity
+                style={[styles.secondaryButton, { backgroundColor: "#28a745" }]}
+                onPress={handleChangePassword}
+              >
+                <Text style={styles.secondaryText}>Lưu</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={[styles.secondaryButton, { backgroundColor: "#f44336" }]}
+                onPress={() => setShowPasswordModal(false)}
+              >
+                <Text style={styles.secondaryText}>Hủy</Text>
+              </TouchableOpacity>
             </View>
           </View>
-        </Modal>
+        </View>
+      </Modal>
 
         {/* Đăng xuất */}
         <TouchableOpacity style={styles.logoutBtn} onPress={handleLogout}>
@@ -391,6 +441,7 @@ const styles = StyleSheet.create({
   cardTitle: { fontSize: 16 },
   label: { fontSize: 14, fontWeight: '500', marginTop: 10 },
   input: {
+    flex: 1,
     borderWidth: 1,
     borderColor: "#ddd",
     padding: 12,
@@ -410,6 +461,21 @@ const styles = StyleSheet.create({
   row: { flexDirection: "row", marginTop: 15, justifyContent: 'flex-end' },
   modalContainer: { flex: 1, justifyContent: "center", alignItems: "center", backgroundColor: "rgba(0,0,0,0.5)" },
   modalBox: { width: "85%", padding: 20, backgroundColor: "#fff", borderRadius: 12, elevation: 5 },
+  inputWithIcon: {
+    borderWidth: 1,
+    borderColor: "#ccc",
+    borderRadius: 8,
+    paddingVertical: 10,
+    paddingLeft: 12,
+    paddingRight: 40,
+    height: 60, 
+  },
+  iconWrapper: {
+    position: "absolute",
+    right: 10,
+    top: "50%",
+    transform: [{ translateY: -19 }], // căn giữa icon
+  },
   modalTitle: { fontSize: 20, fontWeight: "bold", marginBottom: 15, textAlign: "center" },
   logoutBtn: { margin: 20, padding: 14, borderRadius: 8, alignItems: 'center', backgroundColor: '#ff4d4f' },
   logoutText: { color: '#fff', fontSize: 16, fontWeight: 'bold' },

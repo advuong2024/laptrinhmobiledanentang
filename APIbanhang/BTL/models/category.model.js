@@ -52,7 +52,7 @@ Category.delete = (category_id, callBack) => {
 };
 Category.GetByCategoryID = (category_id, callback) => {
   const sqlString = `
-    SELECT p.product_id, p.product_name, p.description, p.price, p.image, c.category_name
+    SELECT p.product_id, p.product_name, p.price, p.image, c.category_name
     FROM product p
     JOIN category c ON p.category_id = c.category_id
     WHERE p.category_id = ?`;

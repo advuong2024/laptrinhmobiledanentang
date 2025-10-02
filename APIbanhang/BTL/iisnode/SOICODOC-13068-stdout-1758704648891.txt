@@ -1,8 +1,0 @@
-[dotenv@17.2.2] injecting env (3) from .env -- tip: ⚙️  load multiple .env files with { path: ['.env.local', '.env'] }
-[dotenv@17.2.2] injecting env (0) from .env -- tip: 🛠️  run anywhere with `dotenvx run -- yourcommand`
-Server chạy trên cổng \\.\pipe\f5f28878-a5de-4739-98fa-4f730d2eb888
-📥 BODY: {
-  taikhoan: 'user_a',
-  matkhau: '123456',
-  guest_id: 'ce0e61f0-92a1-49be-9c44-b8829736da07'
-}

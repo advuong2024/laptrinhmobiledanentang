@@ -17,7 +17,12 @@ export default function LoginScreen() {
 
   const handleLogin = async () => {
     try {
-      const res: UserResponse = await login(username, password);
+      const res = await login(username, password);
+
+      if (!res) {
+        Alert.alert("Tài khoản hoặc mật khẩu không đúng");
+        return;
+      }
 
       if (res.token) {
         await AsyncStorage.setItem("token", res.token);
@@ -27,7 +32,7 @@ export default function LoginScreen() {
       }
     } catch (err: any) {
       console.error(err.message);
-      Alert.alert("Lỗi đăng nhập thất bại");
+      Alert.alert("Tài khoản hoặc mật khẩu không đúng");
     }
   };
 

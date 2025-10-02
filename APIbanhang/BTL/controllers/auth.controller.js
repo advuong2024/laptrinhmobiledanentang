@@ -102,7 +102,7 @@ exports.login = async (req, res) => {
       message: "Đăng nhập thành công!",
       token,
       user: {
-        id_user: user.user_id,
+        user_id: user.user_id,
         taikhoan: user.username,
         customer_id: user.customer_id,
         quyen: user.role,

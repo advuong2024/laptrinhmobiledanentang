@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 const user_accountController = require("../controllers/user_account.controller");
+router.put("/change-password", user_accountController.changePassword);
 router.get('/', user_accountController.getAll);
 router.get('/:id',  user_accountController.getById);
 router.post('/',  user_accountController.insert);

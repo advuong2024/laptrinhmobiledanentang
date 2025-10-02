@@ -1,4 +1,4 @@
-const { taikhoan } = require("../../../../CongngheWeb/Apicode/BTL/models/bacsi.model");
+const bcrypt = require('bcrypt');
 const db = require("../common/db");
 const User_account = (user_account) => {
   this.user_id = user_account.user_id;
@@ -67,5 +67,23 @@ User_account.findByAccount = (taikhoan, callBack) => {
       callBack(null, null);
     }
   });
-}
+};
+User_account.changePassword = (userId, oldPassword, newPassword, callback) => {
+  db.query("SELECT password FROM user_account WHERE user_id = ?", [userId], (err, result) => {
+    if (err) return callback(err, null);
+    if (result.length === 0) return callback("User không tồn tại", null);
+
+    const currentPassword = result[0].password;
+
+    // So sánh trực tiếp
+    if (oldPassword.trim() !== currentPassword.trim()) {
+      return callback("Mật khẩu cũ không đúng", null);
+    }
+    // Cập nhật mật khẩu mới
+    db.query("UPDATE user_account SET password = ? WHERE user_id = ?", [newPassword, userId], (err2) => {
+      if (err2) return callback(err2, null);
+      callback(null, "Đổi mật khẩu thành công");
+    });
+  });
+};
 module.exports = User_account;

@@ -13,7 +13,7 @@ import * as ImagePicker from "expo-image-picker";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { updateAvatarBackend } from "@/assets/data/imformation"
 
-const BACKEND_SIGN_URL = "http://192.168.1.95:8080/image/sign";
+const BACKEND_SIGN_URL = "http://192.168.1.248:8080/image/sign";
 
 interface ImageUploaderProps {
   imageUrl?: string;

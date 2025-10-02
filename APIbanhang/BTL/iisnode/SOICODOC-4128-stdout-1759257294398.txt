@@ -1,0 +1,4 @@
+[dotenv@17.2.2] injecting env (3) from .env -- tip: ⚙️  specify custom .env file path with { path: '/custom/path/.env' }
+[dotenv@17.2.2] injecting env (0) from .env -- tip: ⚙️  suppress all logs with { quiet: true }
+Server chạy trên cổng \\.\pipe\90b44eb1-ae32-406d-b1d3-a56d5d79e051
+📩 Body nhận được: { user_id: 2, oldPassword: '123456', newPassword: '1234567' }

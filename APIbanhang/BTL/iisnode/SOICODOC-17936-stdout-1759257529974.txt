@@ -1,0 +1,4 @@
+[dotenv@17.2.2] injecting env (3) from .env -- tip: ⚙️  write to custom object with { processEnv: myObject }
+[dotenv@17.2.2] injecting env (0) from .env -- tip: 🔐 prevent building .env in docker: https://dotenvx.com/prebuild
+Server chạy trên cổng \\.\pipe\fafe1fa7-cd57-4aab-b0e2-8c8483e67a21
+📩 Body nhận được: { user_id: 2, oldPassword: '123456', newPassword: '1234567' }

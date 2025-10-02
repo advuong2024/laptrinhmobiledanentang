@@ -1,4 +1,4 @@
-const BASE_URL = "http://192.168.1.95:8080"; // ở nhà
+const BASE_URL = "http://192.168.1.248:8080"; // ở nhà
 // const BASE_URL = "http://172.20.10.3:8080";
 // const BASE_URL = 'http://192.168.137.204:8080';
 // const BASE_URL = "http://192.168.92.23:8080";

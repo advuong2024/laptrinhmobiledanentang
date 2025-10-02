@@ -1,0 +1,6 @@
+[dotenv@17.2.2] injecting env (3) from .env -- tip: ⚙️  enable debug logging with { debug: true }
+[dotenv@17.2.2] injecting env (0) from .env -- tip: ⚙️  specify custom .env file path with { path: '/custom/path/.env' }
+Server chạy trên cổng \\.\pipe\9ebe673a-338e-4b11-a981-c7627b619845
+📩 Body nhận được: { user_id: 2, oldPassword: '123456', newPassword: '1234567' }
+📩 Body nhận được: { user_id: 2, oldPassword: '123456', newPassword: '1234567' }
+📩 Body nhận được: { user_id: 2, oldPassword: '123456', newPassword: '1234567' }

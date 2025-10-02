@@ -1,10 +1,11 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { getGuestId } from "@/assets/services/guestService"; 
 
-const BASE_URL = "http://192.168.1.95:8080"; // ở nhà
+const BASE_URL = "http://192.168.1.248:8080"; // ở nhà
 // const BASE_URL = "http://172.20.10.3:8080";
 // const BASE_URL = 'http://192.168.137.204:8080';
 // const BASE_URL = "http://192.168.92.23:8080";
+
 
 
 export interface UserInfo {
@@ -23,7 +24,7 @@ export interface UserResponse {
 export const login = async (
   username: string,
   password: string
-): Promise<UserResponse> => {
+): Promise<UserResponse | null> => {
   const guestId = await getGuestId();
 
   const url = `${BASE_URL}/auth/login`;
@@ -42,15 +43,7 @@ export const login = async (
     });
 
     if (!res.ok) {
-      // 🔹 Xử lý lỗi khi đăng nhập thất bại
-      const errorBody = await res.json();
-
-      if (res.status === 401 || res.status === 400) {
-        // Sai tài khoản hoặc mật khẩu
-        throw new Error(errorBody || "Tài khoản hoặc mật khẩu không đúng!");
-      }
-
-      throw new Error("Đăng nhập thất bại, vui lòng thử lại.");
+      return null;
     }
 
     const data: UserResponse = await res.json();
@@ -61,8 +54,8 @@ export const login = async (
 
     return data;
   } catch (err: any) {
-    // 🔹 Nếu có lỗi mạng hoặc backend không phản hồi
-    throw new Error(err.message || "Có lỗi xảy ra, vui lòng thử lại sau.");
+    console.log("Lỗi đăng nhập:", err);
+    return null;
   }
 };
 
