@@ -30,4 +30,16 @@ module.exports = {
       res.send(result);
     });
   },
+  getOrderDetailsByOrderId: (req, res) => {
+    const orderId = req.params.id;
+
+    Order_item.getByOrderId(orderId, (err, data) => {
+      if (err) {
+        console.error("Lỗi khi lấy order details:", err);
+        return res.status(500).json({ message: "Lỗi server khi lấy chi tiết đơn hàng" });
+      }
+
+      res.json(data);
+    });
+  },
 };

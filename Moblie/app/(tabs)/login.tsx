@@ -83,7 +83,7 @@ export default function LoginScreen() {
           
           <Text style={styles.registerText}>
             Chưa có tài khoản? <Text style={styles.link} 
-              // onPress={() => router.push({pathname: '/register'})}
+              onPress={() => router.push({pathname: '/register'})}
             >
               Đăng ký
             </Text>

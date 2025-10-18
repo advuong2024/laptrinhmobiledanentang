@@ -29,10 +29,9 @@ User_account.insert = (user_account, callBack) => {
   const sqlString = "INSERT INTO user_account SET ?";
   db.query(sqlString, [user_account], (err, res) => {
     if (err) {
-      callBack(err);
-      return;
+      return callBack(err, null);
     }
-    callBack({user_id : res.insertId, ...user_account });
+    return callBack(null, {user_id : res.insertId, ...user_account });
   });
 };
 User_account.update = (user_account, user_id, callBack) => {

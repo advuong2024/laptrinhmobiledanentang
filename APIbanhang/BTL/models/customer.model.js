@@ -30,18 +30,16 @@ Customer.insert = (customer, callBack) => {
   const sqlString = "INSERT INTO customer SET ?";
   db.query(sqlString, [customer], (err, res) => {
     if (err) {
-      callBack(err);
-      return;
+      return callBack(err, null);
     }
-    callBack({customer_id : res.insertId, ...customer });
+    return callBack(null, {customer_id : res.insertId, ...customer });
   });
 };
 Customer.update = (customer, customer_id, callBack) => {
   const sqlString = "UPDATE customer SET ? WHERE customer_id = ?";
   db.query(sqlString, [customer, customer_id], (err, res) => {
     if (err) {
-      callBack(err, null);
-      return;
+      return callBack(err, null);
     }
     callBack(null, { 
       success: true, 
@@ -53,10 +51,9 @@ Customer.update = (customer, customer_id, callBack) => {
 Customer.delete = (customer_id, callBack) => {
   db.query("DELETE FROM customer WHERE customer_id = ?", [customer_id], (err, res) => {
     if (err) {
-      callBack(err);
-      return;
+      return callBack(err, null);
     }
-    callBack("Xóa customer customer_id = " + "customer_id" + " thành công");
+    callBack(null, "Xóa customer customer_id = " + customer_id + " thành công");
   });
 };
 Customer.getStats = (customer_id, callBack) => {

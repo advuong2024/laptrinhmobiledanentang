@@ -206,7 +206,7 @@ export default function InformationScreen() {
           <View style={styles.statItem}>
             <Text style={styles.statNumber}>
               {stats?.tong_chi_tieu
-                ? `${stats.tong_chi_tieu.toLocaleString("vi-VN")}đ`
+                ? `${Number(stats.tong_chi_tieu).toLocaleString("vi-VN")}đ`
                 : "0đ"}
             </Text>
             <Text style={styles.statLabel}>Tổng chi tiêu</Text>

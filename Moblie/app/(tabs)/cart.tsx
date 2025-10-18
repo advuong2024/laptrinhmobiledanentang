@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { Image } from 'expo-image';
 import { useRouter } from 'expo-router';
 import { Platform, StyleSheet, View, Text, TouchableOpacity, FlatList, Dimensions, Alert } from 'react-native';
@@ -89,7 +89,7 @@ export default function CartScreen() {
     }
   }
 
-  const handleCheckout = async() => {
+  const handleCheckout = useCallback(async () => {
     const selected = carts?.items.filter(i => checkedItems[i.cart_item_id]);
     if (!selected || selected.length === 0) {
       Alert.alert("Thông báo", "Vui lòng chọn sản phẩm để thanh toán!");
@@ -102,32 +102,36 @@ export default function CartScreen() {
 
       if (!token || !user) {
         Alert.alert("Lỗi", "Bạn chưa đăng nhập");
-        router.push({pathname: '/login'});
+        router.push({ pathname: "/login" });
         return;
       }
 
+      // ✅ Cập nhật số lượng mới nhất
+      const updatedItems = selected.map(item => ({
+        ...item,
+        quantity: quantities[item.cart_item_id] ?? item.quantity,
+      }));
+
+      // ✅ Tính lại tổng tiền theo số lượng mới
+      const updatedTotalPrice = updatedItems.reduce(
+        (sum, item) => sum + item.price * item.quantity,
+        0
+      );
+
+      // ✅ Lưu dữ liệu tạm vào AsyncStorage
+      await AsyncStorage.setItem("checkout_items", JSON.stringify(updatedItems));
+      await AsyncStorage.setItem("checkout_total", updatedTotalPrice.toString());
+
+      // ✅ Điều hướng sang trang Checkout
       router.push({
         pathname: "/checkout",
-        params: {
-          items: JSON.stringify(selected.map(item => ({
-            cart_item_id: item.cart_item_id,
-            product_id: item.product_id,
-            product_name: item.product_name,
-            price: item.price,
-            quantity: quantities[item.cart_item_id],
-            color: item.color,
-            size: item.size,
-            image: item.image
-          }))),
-
-          totalPrice: totalPrice.toString(),
-          type: 'cart'
-        }
+        params: { type: "cart" },
       });
     } catch (error) {
-      console.error("Lỗi khi kiểm tra đăng nhập:", error);
+      console.error("Lỗi khi xử lý checkout:", error);
+      Alert.alert("Lỗi", "Không thể tiếp tục thanh toán");
     }
-  };
+  }, [carts, checkedItems, quantities]);
 
   const renderCart: ListRenderItem<CartItem> = ({ item }) => (
     <View

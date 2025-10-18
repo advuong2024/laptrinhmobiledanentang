@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 const order_itemController = require("../controllers/order_item.controller");
+router.get("/order/:id", order_itemController.getOrderDetailsByOrderId);
 router.get('/', order_itemController.getAll);
 router.get('/:id',  order_itemController.getById);
 router.post('/',  order_itemController.insert);

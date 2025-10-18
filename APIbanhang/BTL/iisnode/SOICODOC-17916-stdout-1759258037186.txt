@@ -1,4 +1,0 @@
-[dotenv@17.2.2] injecting env (3) from .env -- tip: ⚙️  override existing env vars with { override: true }
-[dotenv@17.2.2] injecting env (0) from .env -- tip: 🔐 encrypt with Dotenvx: https://dotenvx.com
-Server chạy trên cổng \\.\pipe\ef43b889-6a7c-4dde-a66d-5ddef38746cc
-📩 Body nhận được: { user_id: 2, oldPassword: '123456', newPassword: '1234567' }

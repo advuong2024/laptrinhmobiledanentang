@@ -50,4 +50,28 @@ Order_item.delete = (order_item_id, callBack) => {
     callBack("Xóa order_item order_item_id = " + "order_item_id" + " thành công");
   });
 };
+Order_item.getByOrderId = (order_id, callback) => {
+  const sql = `
+    SELECT 
+      oi.order_item_id,
+      oi.order_id,
+      oi.variant_id,
+      pv.color,
+      pv.size,
+      pv.image AS variant_image,
+      p.product_id,
+      p.product_name,
+      p.image AS product_image,
+      oi.quantity,
+      oi.price
+    FROM order_item oi
+    JOIN product_variant pv ON oi.variant_id = pv.variant_id
+    JOIN product p ON pv.product_id = p.product_id
+    WHERE oi.order_id = ?;
+  `;
+  db.query(sql, [order_id], (err, results) => {
+    if (err) return callback(err, null);
+    callback(null, results);
+  });
+};
 module.exports = Order_item;

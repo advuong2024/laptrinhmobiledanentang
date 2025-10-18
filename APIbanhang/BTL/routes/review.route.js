@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 const reviewController = require("../controllers/review.controller");
+router.get('/checkReviewed/:order_id/:product_id/:customer_id', reviewController.checkReviewedByOrder);
 router.get('/productid/:id', reviewController.GetByProduct);
 router.get('/reviewstats/:id', reviewController.GetReviewStats);
 router.get('/', reviewController.getAll);

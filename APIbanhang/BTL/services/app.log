@@ -1,0 +1,12 @@
+[2025-10-08T16:26:21.755Z] 📩 Dữ liệu nhận từ frontend: {"fullname":"Nguyễn Văn Thanh","gender":"Nam","phone":"0987654321","email":"thanh@example.com","address":"TP.Hưng Yên","username":"user_e","password":"123456"}
+[2025-10-08T16:26:21.755Z] 📦 Dữ liệu chèn vào customer: {"fullname":"Nguyễn Văn Thanh","gender":"Nam","phone":"0987654321","email":"thanh@example.com","address":"TP.Hưng Yên","avatar":null}
+[2025-10-08T16:30:48.790Z] 📩 Dữ liệu nhận từ frontend: {"fullname":"Đặng Thị Yến","gender":"Nữ","phone":"0866419236","email":"yend@example.com","address":"Hưng Yên","username":"user_h","password":"123456"}
+[2025-10-08T16:30:48.790Z] 📦 Dữ liệu chèn vào customer: {"fullname":"Đặng Thị Yến","gender":"Nữ","phone":"0866419236","email":"yend@example.com","address":"Hưng Yên","avatar":null}
+[2025-10-08T16:33:04.623Z] 📩 Dữ liệu nhận từ frontend: {"fullname":"Đặng Thị Yến","gender":"Nữ","phone":"0866419236","email":"yend@example.com","address":"Hưng Yên","username":"user_h","password":"123456"}
+[2025-10-08T16:33:04.624Z] 📦 Dữ liệu chèn vào customer: {"fullname":"Đặng Thị Yến","gender":"Nữ","phone":"0866419236","email":"yend@example.com","address":"Hưng Yên","avatar":null}
+[2025-10-08T16:33:04.637Z] ❌ Lỗi khi thêm customer: undefined
+[2025-10-08T16:41:54.773Z] 📩 Dữ liệu nhận từ frontend: {"fullname":"Đặng Thị Yến","gender":"Nữ","phone":"0866419236","email":"yend@example.com","address":"Hưng Yên","username":"user_h","password":"123456"}
+[2025-10-08T16:41:54.773Z] 📦 Dữ liệu chèn vào customer: {"fullname":"Đặng Thị Yến","gender":"Nữ","phone":"0866419236","email":"yend@example.com","address":"Hưng Yên","avatar":null}
+[2025-10-08T16:41:54.779Z] ✅ Customer thêm thành công: {"customer_id":10,"fullname":"Đặng Thị Yến","gender":"Nữ","phone":"0866419236","email":"yend@example.com","address":"Hưng Yên","avatar":null}
+[2025-10-08T16:41:54.780Z] 📦 Dữ liệu chèn vào user_account: {"username":"user_h","password":"123456","role":"customer","customer_id":10}
+[2025-10-08T16:41:54.783Z] ✅ User_account thêm thành công: {"user_id":8,"username":"user_h","password":"123456","role":"customer","customer_id":10}

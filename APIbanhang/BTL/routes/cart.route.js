@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 const authenticateToken = require("../middlewares/authMiddlewaresOptional");
 const cartController = require("../controllers/cart.controller");
+router.delete("/remove-ordered-items/:customer_id", cartController.removeOrderedItems);
 router.post("/add", cartController.addToCart);
 router.get("/getcart",authenticateToken, cartController.getCart);
 router.get('/', cartController.getAll);

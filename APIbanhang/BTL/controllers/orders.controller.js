@@ -68,4 +68,134 @@ module.exports = {
       }
     });
   },
+  getOrdersItem: (req, res) => {
+    const { customer_id, status, page = 1, pageSize = 10 } = req.query;
+
+    Orders.getOrdersByCustomerAndStatus(
+      customer_id,
+      status,
+      parseInt(page),
+      parseInt(pageSize),
+      (err, orders) => {
+        if (err) {
+          console.error("Lỗi khi lấy orders:", err); // log ra console
+          return res.status(500).json({ message: err.message || "Lỗi server" });
+        }
+        res.json(orders);
+      }
+    );
+  },
+  cancelOrder: (req, res) => {
+    const { orderId } = req.params;
+    Orders.cancelOrder(orderId, (err, affectedRows) => {
+      if (err) return res.status(500).json({ message: "Lỗi server" });
+      if (affectedRows === 0) return res.status(400).json({ message: "Không thể hủy đơn" });
+      res.json({ message: "Đã hủy đơn hàng" });
+    });
+  },
+  getOrderDetail: (req, res) => {
+    const orderId = req.params.id;
+
+    Orders.trackOrderSimple(orderId, (err, result) => {
+      if (err) {
+        console.error("Lỗi khi lấy chi tiết đơn hàng:", err);
+        return res.status(500).send({ message: "Lỗi máy chủ khi lấy chi tiết đơn hàng." });
+      }
+
+      if (!result) {
+        return res.status(404).send({ message: "Không tìm thấy đơn hàng." });
+      }
+
+      res.status(200).send({
+        message: "Lấy chi tiết đơn hàng thành công.",
+        data: result
+      });
+    });
+  },
+  getOrderTracking: (req, res) => {
+    const orderId = req.params.id;
+
+    Orders.trackOrderFull(orderId, (err, result) => {
+      if (err) {
+        console.error("Lỗi khi lấy lịch sử đơn hàng:", err);
+        return res.status(500).send({ message: "Lỗi máy chủ khi lấy lịch sử đơn hàng." });
+      }
+
+      if (!result) {
+        return res.status(404).send({ message: "Không tìm thấy lịch sử cho đơn hàng này." });
+      }
+
+      res.status(200).send({
+        message: "Lấy lịch sử đơn hàng thành công.",
+        data: result
+      });
+    });
+  },
+  updateOrderStatus: (req, res) => {
+    const orderId = req.params.id;
+    const { newStatus, note } = req.body;
+
+    if (!newStatus) {
+      return res.status(400).send({ message: "Thiếu trạng thái mới (newStatus)." });
+    }
+
+    Orders.updateStatus(orderId, newStatus, note || "", (err, result) => {
+      if (err) {
+        console.error("Lỗi khi cập nhật trạng thái đơn hàng:", err);
+        return res.status(500).send({ message: "Lỗi khi cập nhật trạng thái đơn hàng." });
+      }
+
+      res.status(200).send({
+        message: "Cập nhật trạng thái đơn hàng thành công.",
+        data: result
+      });
+    });
+  },
+  returnOrder: (req, res) => {
+    const { orderId } = req.params;
+    Orders.returnOrder(orderId, (err, affectedRows) => {
+      if (err) return res.status(500).json({ message: "Lỗi server" });
+      if (affectedRows === 0) return res.status(400).json({ message: "Không thể trả hàng" });
+      res.json({ message: "Đơn hàng đã được đánh dấu trả hàng" });
+    });
+  },
+  getCountByMonth: (req, res) => {
+    Orders.getCountByMonth((err, count) => {
+      if (err) {
+        console.error('❌ Lỗi khi lấy số lượng đơn hàng:', err);
+        return res.status(500).json({ message: 'Lỗi server khi lấy số lượng đơn hàng.' });
+      }
+      res.status(200).json({ total_completed_orders: count });
+    });
+  },
+  getCountByMonthALL: (req, res) => {
+    Orders.getCountByMonthALL((err, count) => {
+      if (err) {
+        console.error('❌ Lỗi khi lấy tổng số lượng đơn hàng:', err);
+        return res.status(500).json({ message: 'Lỗi server khi lấy tổng số lượng đơn hàng.' });
+      }
+      res.status(200).json({ total_orders: count });
+    });
+  },
+  getRevenueByMonth: (req, res) => {
+    Orders.getRevenueByMonth((err, total) => {
+      if (err) {
+        console.error('❌ Lỗi khi lấy doanh thu:', err);
+        return res.status(500).json({ message: 'Lỗi server khi lấy doanh thu.' });
+      }
+      res.status(200).json({ total_revenue: total });
+    });
+  },
+  getChartData: (req, res) => {
+    const { filter, startDate, endDate } = req.query;
+
+    Orders.getChartData(filter, startDate, endDate, (err, data) => {
+      if (err) {
+        console.error('❌ Lỗi khi lấy dữ liệu biểu đồ:', err);
+        return res.status(500).json({ message: 'Lỗi khi lấy dữ liệu biểu đồ' });
+      }
+
+      res.json(data);
+    });
+  },
 };

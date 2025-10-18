@@ -6,15 +6,23 @@ import {
 import { useRouter, useLocalSearchParams } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 import { Picker } from "@react-native-picker/picker";
-import { useFetchCheckout, Checkouts, CustomerChecks, PlaceOrderPayload, placeOrder } from "../../assets/data/checkout";
+import { useFetchCheckout, 
+  Checkouts, CustomerChecks, 
+  PlaceOrderPayload, placeOrder,
+  removeOrderedItems
+} from "../../assets/data/checkout";
+import { useCart } from "@/components/CartContext";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
 
 const CheckoutScreen = () => {
-  const { type, id, items, totalPrice, quantity } = useLocalSearchParams<{
+  const { type, id, items, totalPrice, quantity, price } = useLocalSearchParams<{
     type: string,
     id?: string,
     items?: string,
     totalPrice?: string,
-    quantity?: string
+    quantity?: string,
+    price?: string
   }>();
 
   const [cartItems, setCartItems] = useState<any[]>([]);
@@ -23,6 +31,7 @@ const CheckoutScreen = () => {
   const [shippingFee, setShippingFee] = useState(0);
   const [paymentMethod, setPaymentMethod] = useState("COD");
   const { fetchCheckout } = useFetchCheckout();
+  const { refreshCart } = useCart();
 
   const qty = quantity ? parseInt(quantity, 10) : 1;
   const router = useRouter();
@@ -33,15 +42,21 @@ const CheckoutScreen = () => {
         const { product, customer } = await fetchCheckout("buyNow", id);
         setProduct(product);
         setCustomer(customer);
-      } else if (type === "cart" && items) {
-        const parsedItems = JSON.parse(items);
-        setCartItems(parsedItems);
-        // ở đây giả sử bạn có API lấy customer
+      } else if (type === "cart") {
+        // ✅ Lấy dữ liệu từ AsyncStorage
+        const storedItems = await AsyncStorage.getItem("checkout_items");
+        const storedTotal = await AsyncStorage.getItem("checkout_total");
+
+        if (storedItems) {
+          const parsedItems = JSON.parse(storedItems);
+          setCartItems(parsedItems);
+        }
+
         const { customer } = await fetchCheckout("cart");
         setCustomer(customer);
       }
     } catch (error) {
-      console.error("Lỗi fetch dữ liệu:", error);
+      console.error("Lỗi khi fetch dữ liệu:", error);
     }
   };
 
@@ -50,12 +65,21 @@ const CheckoutScreen = () => {
   }, [type, id, items]);
 
   // Tính tổng tiền
-  const totalPriceNumber =
-    type === "cart"
-      ? cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0)
-      : product
-      ? product.price * (product.quantity || 1)
-      : 0;
+  const totalPriceNumber = (() => {
+    if (type === "cart") {
+      return cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
+    }
+
+    if (type === "buyNow" && product) {
+      // Nếu product là mảng, lấy phần tử đầu tiên
+      const p = Array.isArray(product) ? product[0] : product;
+      const priceValue = Number(p?.price || 0);
+      const quantityValue = Number(quantity || p?.quantity || 1);
+      return priceValue * quantityValue;
+    }
+
+    return 0;
+  })();
 
   const finalPrice = totalPriceNumber + shippingFee;
 
@@ -102,6 +126,22 @@ const CheckoutScreen = () => {
 
     try {
       const result = await placeOrder(orderData);
+
+      const variantIds =
+      type === "cart"
+        ? cartItems.map((item) => item.variant_id)
+        : product
+        ? [Number(product.variant_id)]
+        : [];
+
+      // ✅ Gọi API xóa sản phẩm trong giỏ (chỉ sản phẩm đã đặt)
+      if (customer.customer_id && variantIds.length > 0) {
+        await removeOrderedItems(Number(customer.customer_id), variantIds);
+        console.log("🗑️ Đã xóa sản phẩm trong giỏ hàng liên quan đến đơn hàng");
+      }
+
+      await refreshCart();
+
       Alert.alert("Thành công", "Đặt hàng thành công!");
       router.push("/");
     } catch (error: any) {
@@ -119,7 +159,7 @@ const CheckoutScreen = () => {
           {item.color && <Text style={styles.variant}>màu: {item.color},</Text>}
           {item.size && <Text style={[styles.variant, { marginLeft: 8 }]}>size: {item.size}</Text>}
         </View>
-        <Text>x {qty}</Text>
+        <Text>x {item.quantity}</Text>
       </View>
       <Text style={styles.price}>{Number(item.price).toLocaleString('vi-VN')}₫</Text>
     </View>

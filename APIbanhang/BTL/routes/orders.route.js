@@ -1,6 +1,16 @@
 var express = require('express');
 var router = express.Router();
 const ordersController = require("../controllers/orders.controller");
+router.get('/count/completed', ordersController.getCountByMonth);
+router.get('/count/all', ordersController.getCountByMonthALL);
+router.get('/revenue/month', ordersController.getRevenueByMonth);
+router.get('/chart', ordersController.getChartData);
+router.get("/getitemorder", ordersController.getOrdersItem);
+router.put("/cancel/:orderId", ordersController.cancelOrder);
+router.get("/:id/detail", ordersController.getOrderDetail);
+router.get("/:id/tracking", ordersController.getOrderTracking);
+router.put("/:id/status", ordersController.updateOrderStatus);
+router.put("/return/:orderId", ordersController.returnOrder);
 router.post("/checkouts", ordersController.placeOrder)
 router.get("/getorders", ordersController.getOrders);
 router.get('/', ordersController.getAll);

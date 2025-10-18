@@ -117,4 +117,28 @@ Cart.getCartItems = (cartId, callback) => {
   });
 };
 
+Cart.getCartByCustomer = (customer_id, callback) => {
+  const sql = "SELECT cart_id FROM cart WHERE customer_id = ?";
+
+  db.query(sql, [customer_id], (err, results) => {
+    if (err) return callback(err, null);
+
+    // trả về cart đầu tiên hoặc null nếu không tìm thấy
+    callback(null, results[0] || null);
+  });
+};
+
+Cart.removeItemsFromCart = (cart_id, variant_ids, callback) => {
+  if (!variant_ids || variant_ids.length === 0) return callback(null, "Không có sản phẩm nào để xóa");
+
+  const placeholders = variant_ids.map(() => "?").join(",");
+  const sql = `DELETE FROM cart_item WHERE cart_id = ? AND variant_id IN (${placeholders})`;
+
+  db.query(sql, [cart_id, ...variant_ids], (err, results) => {
+    if (err) return callback(err, null);
+
+    callback(null, results);
+  });
+};
+
 module.exports = Cart;

@@ -29,29 +29,26 @@ Product.insert = (product, callBack) => {
   const sqlString = "INSERT INTO product SET ?";
   db.query(sqlString, [product], (err, res) => {
     if (err) {
-      callBack(err);
-      return;
+      return callBack(err, null);
     }
-    callBack({product_id : res.insertId, ...product });
+    callBack(null, {product_id : res.insertId, ...product });
   });
 };
 Product.update = (product, product_id, callBack) => {
   const sqlString = "UPDATE product SET ? WHERE product_id = ?";
   db.query(sqlString, [product, product_id], (err, res) => {
     if (err) {
-      callBack(err);
-      return;
+      return callBack(err, null);
     }
-    callBack("Cập nhật product product_id = " + "product_id" + " thành công");
+    callBack(null, "Cập nhật product product_id = " + product_id + " thành công");
   });
 };
 Product.delete = (product_id, callBack) => {
   db.query("DELETE FROM product WHERE product_id = ?", [product_id], (err, res) => {
     if (err) {
-      callBack(err);
-      return;
+      return callBack(err, null);
     }
-    callBack("Xóa product product_id = " + "product_id" + " thành công");
+    callBack(null, "Xóa product product_id = " + product_id + " thành công");
   });
 };
 // Product.GetByCategoryID = (category_id, callback) => {

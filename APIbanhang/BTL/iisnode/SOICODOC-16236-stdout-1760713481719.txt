@@ -1,0 +1,4 @@
+[dotenv@17.2.2] injecting env (3) from .env -- tip: ⚙️  override existing env vars with { override: true }
+[dotenv@17.2.2] injecting env (0) from .env -- tip: 🔐 prevent committing .env to code: https://dotenvx.com/precommit
+Server chạy trên cổng \\.\pipe\6e046bf5-3d2d-429d-8d77-58a1f98eac42
+📥 addToCart body: { customer_id: 1, guest_id: null, variant_id: 8, quantity: 1 }

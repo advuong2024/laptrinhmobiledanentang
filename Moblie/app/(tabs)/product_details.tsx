@@ -275,7 +275,9 @@ export default function ProductDetailsScreen() {
       <Text style={styles.userName}>{item.fullname}</Text>
       {renderStars(item.rating)}
       <Text style={styles.comment}>{item.comment}</Text>
-      <Text style={styles.date}>{item.created_at}</Text>
+      <Text style={styles.date}>
+        {`${new Date(item.created_at).toLocaleDateString("vi-VN")} `}
+      </Text>
     </View>
   );
 
@@ -284,7 +286,7 @@ export default function ProductDetailsScreen() {
       <View style={styles.header}>
             <TouchableOpacity 
               style={styles.backButton}
-              onPress={() => router.push({ pathname: '/' })}
+              onPress={() => router.back()}
             >
               <Ionicons name="arrow-back" size={24} color="#0a87ecff" />
               <Text style={styles.backButtonText}>Sản phẩm</Text>
@@ -338,7 +340,7 @@ export default function ProductDetailsScreen() {
             <View style={styles.container}>
               <View style={styles.summary}>
                 <Text style={styles.average}>{stats ? stats.avg_rating : 0} <Text style={{ fontSize: 18}}>trên 5</Text></Text>
-                {renderStars(4.5, 24)}
+                {renderStars(0, 24)}
                 <Text style={styles.count}>{stats ? stats.total_review : 0} đánh giá</Text>
               </View>
 

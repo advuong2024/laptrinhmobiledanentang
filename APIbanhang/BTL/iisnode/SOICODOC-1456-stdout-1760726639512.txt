@@ -1,0 +1,9 @@
+[dotenv@17.2.2] injecting env (3) from .env -- tip: 📡 auto-backup env with Radar: https://dotenvx.com/radar
+[dotenv@17.2.2] injecting env (0) from .env -- tip: ⚙️  load multiple .env files with { path: ['.env.local', '.env'] }
+Server chạy trên cổng \\.\pipe\3af517a2-99b8-481a-a79f-1e058e40bc66
+📥 addToCart body: { customer_id: 1, guest_id: null, variant_id: 10, quantity: 1 }
+📥 BODY: {
+  taikhoan: 'user_a',
+  matkhau: '1234567',
+  guest_id: '73492e2f-22cd-4b68-88c0-8d4aaf233df8'
+}

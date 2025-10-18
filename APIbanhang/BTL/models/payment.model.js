@@ -34,13 +34,13 @@ Payment.insert = (payment, callBack) => {
     callBack(null, { payment_id: res.insertId, ...payment });
   });
 };
-Payment.update = (payment, payment_id, callBack) => {
-  const sqlString = "UPDATE payment SET ? WHERE payment_id = ?";
-  db.query(sqlString, [payment, payment_id], (err, res) => {
+Payment.update = (payment, order_id, callBack) => {
+  const sqlString = "UPDATE payment SET ? WHERE order_id = ?";
+  db.query(sqlString, [payment, order_id], (err, res) => {
     if (err) {
       return callBack(err);
     }
-    callBack("Cập nhật payment payment_id = " + "payment_id" + " thành công");
+    callBack("Cập nhật payment order_id = " + order_id + " thành công");
   });
 };
 Payment.delete = (payment_id, callBack) => {
@@ -49,6 +49,13 @@ Payment.delete = (payment_id, callBack) => {
       return callBack(err);
     }
     callBack("Xóa payment payment_id = " + "payment_id" + " thành công");
+  });
+};
+Payment.getByOrderId = (order_id, callback) => {
+  const sql = `SELECT * FROM payment WHERE order_id = ?`;
+  db.query(sql, [order_id], (err, results) => {
+    if (err) return callback(err, null);
+    callback(null, results[0]);
   });
 };
 module.exports = Payment;

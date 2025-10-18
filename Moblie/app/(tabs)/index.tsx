@@ -16,12 +16,14 @@ export default function HomeScreen() {
   const [products, setProducts] = useState<Product[]>([]);
   const [categorys, setCategorys] = useState<Category[]>([]);
   const [types, setTypes] = useState([]);
+  const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
   const router = useRouter();
 
   useEffect(() => {
     const loadData = async () => {
       const productData = await fetchProducts();
       setProducts(productData);
+      setFilteredProducts(productData);
 
       const categoryData = await fetchCategorys();
       setCategorys(categoryData);
@@ -29,6 +31,13 @@ export default function HomeScreen() {
 
     loadData();
   }, []);
+
+  useEffect(() => {
+    const filtered = products.filter(p =>
+      p.product_name.toLowerCase().includes(query.toLowerCase())
+    );
+    setFilteredProducts(filtered);
+  }, [query, products]);
 
   const renderProduct: ListRenderItem<Product> = ({ item }) => (
     <View style={styles.productWrapper}>
@@ -62,7 +71,7 @@ export default function HomeScreen() {
   return (
     <>
       <FlatList<Product>
-        data={products}
+        data={filteredProducts}
         keyExtractor={(item) => item.product_id}
         renderItem={renderProduct}
         numColumns={2}

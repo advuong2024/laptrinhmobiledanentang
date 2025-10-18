@@ -2,6 +2,8 @@ var express = require('express');
 var router = express.Router();
 const authenticateToken = require("../middlewares/authMiddlewares");
 const product_variantController = require("../controllers/product_variant.controller");
+router.get('/stock/:id/:size/:color', product_variantController.getStockByVariant);
+router.put('/:id/:size/:color', product_variantController.updateStock);
 router.get('/variantid/:id', authenticateToken, product_variantController.GetByIDVariant);
 router.get('/productid/:id', product_variantController.GetByIDProduct);
 router.get('/', product_variantController.getAll);

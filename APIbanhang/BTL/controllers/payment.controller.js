@@ -30,4 +30,20 @@ module.exports = {
       res.send(result);
     });
   },
+  getPaymentByOrderId: (req, res) => {
+    const orderId = req.params.id;
+
+    Payment.getByOrderId(orderId, (err, data) => {
+      if (err) {
+        console.error("Lỗi khi lấy payment:", err);
+        return res.status(500).json({ message: "Lỗi server khi lấy thanh toán" });
+      }
+
+      if (!data) {
+        return res.status(404).json({ message: "Không tìm thấy thanh toán cho đơn hàng này" });
+      }
+
+      res.json(data);
+    });
+  },
 };

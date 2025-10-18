@@ -1,0 +1,3 @@
+[dotenv@17.2.2] injecting env (3) from .env -- tip: ⚙️  load multiple .env files with { path: ['.env.local', '.env'] }
+[dotenv@17.2.2] injecting env (0) from .env -- tip: 📡 auto-backup env with Radar: https://dotenvx.com/radar
+Server chạy trên cổng \\.\pipe\8a21f48a-8a42-4d67-84a8-65dd7a5437bd

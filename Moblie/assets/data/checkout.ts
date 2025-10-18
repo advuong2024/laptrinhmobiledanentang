@@ -2,8 +2,8 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { getGuestId } from "../services/guestService";
 
 const BASE_URL = "http://192.168.1.248:8080"; // ở nhà
+// const BASE_URL = 'http://10.155.110.23:8080';
 // const BASE_URL = "http://172.20.10.3:8080";
-// const BASE_URL = 'http://192.168.137.204:8080';
 // const BASE_URL = "http://192.168.92.23:8080";
 
 
@@ -128,4 +128,31 @@ export const placeOrder = async (orderData: PlaceOrderPayload) => {
     console.error("API placeOrder error:", error);
     throw error;
   }
+};
+
+export const removeOrderedItems = async (
+  customer_id: number,
+  variantIds: number[]
+): Promise<{ message: string }> => {
+  if (!variantIds.length) {
+    throw new Error("Danh sách sản phẩm trống");
+  }
+
+  const res = await fetch(
+    `${BASE_URL}/carts/remove-ordered-items/${customer_id}`,
+    {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ variant_ids: variantIds }),
+    }
+  );
+
+  if (!res.ok) {
+    const errorText = await res.text();
+    throw new Error(`Lỗi khi xóa sản phẩm trong giỏ: ${errorText}`);
+  }
+
+  return res.json();
 };

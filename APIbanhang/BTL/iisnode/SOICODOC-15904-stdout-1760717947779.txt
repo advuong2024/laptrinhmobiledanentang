@@ -1,0 +1,4 @@
+[dotenv@17.2.2] injecting env (3) from .env -- tip: ⚙️  write to custom object with { processEnv: myObject }
+[dotenv@17.2.2] injecting env (0) from .env -- tip: 📡 observe env with Radar: https://dotenvx.com/radar
+Server chạy trên cổng \\.\pipe\e32a6b26-56b1-49e5-889f-8257596b80ac
+📥 addToCart body: { customer_id: 1, guest_id: null, variant_id: 5, quantity: 2 }

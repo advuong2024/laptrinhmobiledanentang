@@ -1,6 +1,0 @@
-[dotenv@17.2.2] injecting env (3) from .env -- tip: ⚙️  suppress all logs with { quiet: true }
-[dotenv@17.2.2] injecting env (0) from .env -- tip: 📡 observe env with Radar: https://dotenvx.com/radar
-Server chạy trên cổng \\.\pipe\0691b259-ede8-4ebd-a773-b20c5ae5aa81
-📩 Body nhận được: { user_id: 2, oldPassword: '123456', newPassword: '1234567' }
-📩 Body nhận được: { user_id: 2, oldPassword: '123456', newPassword: '1234567' }
-📩 Body nhận được: { user_id: 2, oldPassword: '1234567', newPassword: '12345678' }

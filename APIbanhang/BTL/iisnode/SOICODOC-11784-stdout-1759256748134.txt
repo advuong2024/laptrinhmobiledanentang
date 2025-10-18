@@ -1,9 +1,0 @@
-[dotenv@17.2.2] injecting env (3) from .env -- tip: ⚙️  specify custom .env file path with { path: '/custom/path/.env' }
-[dotenv@17.2.2] injecting env (0) from .env -- tip: 🔐 prevent committing .env to code: https://dotenvx.com/precommit
-Server chạy trên cổng \\.\pipe\1ec2e157-56ba-4684-b240-466e1d0ae98b
-[0mPOST /user_accounts/change-password [33m404 [0m3.673 ms - 1194[0m
-[0mPOST /user_accounts/change-password [33m404 [0m0.870 ms - 1194[0m
-📩 Body nhận được: { user_id: 2, oldPassword: '123456', newPassword: '1234567' }
-📩 Body nhận được: { user_id: 2, oldPassword: '123456', newPassword: '1234567' }
-📩 Body nhận được: { user_id: 2, oldPassword: '123456', newPassword: '1234567' }
-📩 Body nhận được: { user_id: 2, oldPassword: '123456', newPassword: '1234567' }
